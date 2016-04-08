@@ -1,21 +1,31 @@
 module Yandex
   module Direct
     class Campaign < Base
-      ATTRIBUTES = :Id, :Name, :ClientInfo, :StartDate, :EndDate, :TimeTargeting, :TimeZone, :NegativeKeywords,
-          :BlockedIps, :ExcludedSites, :DailyBudget, :Notification, :Type, :Status, :State, :StatusPayment,
-          :StatusClarification, :SourceId, :Statistics, :Currency, :Funds, :RepresentedBy
+      field :Id, type: Integer
+      field :Name, type: String
+      field :ClientInfo, type: Integer
+      field :StartDate, type: Date
+      field :EndDate, type: Date
 
-      attr_accessor *ATTRIBUTES
-
-      def attributes
-        {
-            :Id => nil,
-            :Name => nil
-        }
-      end
+      # :TimeTargeting, :TimeZone, :NegativeKeywords,
+      #        :BlockedIps, :ExcludedSites, :DailyBudget, :Notification, :Type, :Status, :State, :StatusPayment,
+      #        :StatusClarification, :SourceId, :Statistics, :Currency, :Funds, :RepresentedBy
+      #
+      # ATTRIBUTES = :Id, :Name, :ClientInfo, :StartDate, :EndDate, :TimeTargeting, :TimeZone, :NegativeKeywords,
+      #     :BlockedIps, :ExcludedSites, :DailyBudget, :Notification, :Type, :Status, :State, :StatusPayment,
+      #     :StatusClarification, :SourceId, :Statistics, :Currency, :Funds, :RepresentedBy
+      #
+      # attr_accessor *ATTRIBUTES
+      #
+      # def attributes
+      #   {
+      #       :Id => nil,
+      #       :Name => nil
+      #   }
+      # end
 
       def self.get(selection_criteria)
-        response = Yandex::Direct.request('get', self.path, selection_criteria.fields(*ATTRIBUTES))
+        response = Yandex::Direct.request('get', self.path, selection_criteria.fields(self.fields.keys))
         Yandex::Direct.parse(response, 'Campaigns',self)
       end
 

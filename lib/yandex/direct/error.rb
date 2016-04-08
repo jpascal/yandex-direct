@@ -10,5 +10,6 @@ module Yandex::Direct
     def message
       "#{self.text} (#{self.code}): #{self.detail}"
     end
+    alias_method :to_s, :message
   end
 end
