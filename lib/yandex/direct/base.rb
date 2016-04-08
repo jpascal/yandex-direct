@@ -1,4 +1,5 @@
 require 'active_model'
+require 'active_model/serializers/json'
 
 module Yandex::Direct
   class Base
