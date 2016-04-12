@@ -25,17 +25,22 @@ module Yandex::Direct
       self
     end
     def call(method, options = nil)
-      puts "[#{self.object.name}](#{method}): #{self.as_json}"
+      puts "[#{self.object.name}](#{method}): #{self.to_hash}"
       self.object.method(method).call(*[self, options].compact)
     end
-    def as_json(options = {})
+    def to_hash
       params = {
-          'SelectionCriteria' => (self.selection_criteria.nil? ? {} : self.selection_criteria),
+          'SelectionCriteria' => (self.selection_criteria.nil? ? {} : self.selection_criteria)
       }
-      params.merge!({'FieldNames' => Array(self.field_names).flatten.uniq}) unless self.field_names.nil?
+      unless self.field_names.nil?
+        puts "Fields: #{({'FieldNames' => Array(self.field_names).flatten.uniq})}"
+
+        params.merge!({'FieldNames' => Array(self.field_names).flatten.uniq})
+      end
       params.merge!({'Page' => {'Offset' => self.page_offset}}) if self.page_offset
       params.merge!({'Page' => {'Limit' => self.page_limit}}) if self.page_limit
-      params.as_json(options)
+      puts params
+      params
     end
   end
 end

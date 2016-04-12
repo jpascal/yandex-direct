@@ -1,31 +1,34 @@
 module Yandex
   module Direct
-    class Campaign < Base
-      field :Id, type: Integer
-      field :Name, type: String
-      field :ClientInfo, type: Integer
-      field :StartDate, type: Date
-      field :EndDate, type: Date
-
-      # :TimeTargeting, :TimeZone, :NegativeKeywords,
-      #        :BlockedIps, :ExcludedSites, :DailyBudget, :Notification, :Type, :Status, :State, :StatusPayment,
-      #        :StatusClarification, :SourceId, :Statistics, :Currency, :Funds, :RepresentedBy
-      #
-      # ATTRIBUTES = :Id, :Name, :ClientInfo, :StartDate, :EndDate, :TimeTargeting, :TimeZone, :NegativeKeywords,
-      #     :BlockedIps, :ExcludedSites, :DailyBudget, :Notification, :Type, :Status, :State, :StatusPayment,
-      #     :StatusClarification, :SourceId, :Statistics, :Currency, :Funds, :RepresentedBy
-      #
-      # attr_accessor *ATTRIBUTES
-      #
-      # def attributes
-      #   {
-      #       :Id => nil,
-      #       :Name => nil
-      #   }
-      # end
+    class Campaign < Yandex::Direct::Model
+      field :Id, type: :integer
+      field :Name, type: :string
+      field :ClientInfo, type: :integer
+      field :StartDate, type: :date
+      field :EndDate, type: :date
+      field :TimeTargeting, type: :string
+      field :TimeZone, type: :string
+      field :NegativeKeywords, type: :string
+      field :BlockedIps, type: :string
+      field :ExcludedSites, type: :string
+      field :DailyBudget, type: :string
+      field :Notification, type: :string
+      field :Type, type: :string
+      field :Status, type: :string
+      field :State, type: :string
+      field :StatusPayment, type: :string
+      field :StatusClarificatio, type: :string
+      field :SourceId, type: :string
+      field :Statistics, type: :string
+      field :Currency, type: :string
+      field :Funds, type: :string
+      field :RepresentedBy, type: :string
+      # TODO: field :TextCampaign, type: TextCampaign
+      # TODO: field :DynamicTextCampaign, type: DynamicTextCampaign
+      # TODO: field :MobileAppCampaign, type: MobileAppCampaign
 
       def self.get(selection_criteria)
-        response = Yandex::Direct.request('get', self.path, selection_criteria.fields(self.fields.keys))
+        response = Yandex::Direct.request('get', self.path, selection_criteria.fields(*self.fields.keys))
         Yandex::Direct.parse(response, 'Campaigns',self)
       end
 
@@ -77,9 +80,6 @@ module Yandex
       def delete
         self.class.where(Ids: [self.Id]).call(:delete).first
       end
-
-      # TODO: add, update
-      # TODO: TextCampaign, DynamicTextCampaign, MobileAppCampaign
 
     end
   end

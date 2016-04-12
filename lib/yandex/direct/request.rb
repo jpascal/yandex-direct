@@ -7,6 +7,7 @@ module Yandex
     end
 
     def self.request(method, path, params = nil)
+      puts params.inspect
       response = self.client.post(path, {
           'method' => method,
           'params' => params
